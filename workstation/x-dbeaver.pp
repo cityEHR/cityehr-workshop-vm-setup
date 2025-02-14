@@ -26,38 +26,18 @@ package { 'dbeaver-ce':
   ],
 }
 
-file { 'dbeaver-ce-desktop-shortcut':
-  ensure  => file,
-  path    => "/home/${custom_user}/Desktop/dbeaver-ce.desktop",
-  source  => '/usr/share/applications/dbeaver-ce.desktop',
-  owner   => $custom_user,
-  group   => $custom_user,
-  mode    => '0644',
-  require => [
+xdesktop::shortcut { 'DBeaver CE':
+  shortcut_source => '/usr/share/applications/dbeaver-ce.desktop',
+  user            => $custom_user,
+  position        => {
+    provider => 'lxqt',
+    x        => 266,
+    y        => 12,
+  },
+  require         => [
     Package['desktop'],
     File['custom_user_desktop_folder'],
-    Package['dbeaver-ce'],
-  ],
-}
-
-exec { 'gvfs-trust-dbeaver-ce-shortcut':
-  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/dbeaver-ce.desktop metadata::trusted true",
-  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/dbeaver-ce.desktop | /usr/bin/grep trusted",
-  user        => $custom_user,
-  environment => [
-    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
-  ],
-  require     => File['dbeaver-ce-desktop-shortcut'],
-}
-
-ini_setting { 'dbeaver-ce-desktop-shortcut-position':
-  ensure  => present,
-  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  section => 'dbeaver-ce.desktop',
-  setting => 'pos',
-  value   => '@Point(266 12)',
-  require => [
     File['desktop-items-0'],
-    File['dbeaver-ce-desktop-shortcut'],
+    Package['dbeaver-ce'],
   ],
 }

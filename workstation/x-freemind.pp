@@ -47,49 +47,18 @@ file { 'exec-freemind-sh':
   require => Exec['unzip-freemind'],
 }
 
-$freemind_desktop_shortcut = @("FREEMIND_DESKTOP_ENTRY_EOF"/L)
-  [Desktop Entry]
-  Version=1.0
-  Type=Application
-  Name=FreeMind
-  Exec=${freemind_bin}
-  Terminal=false
-  StartupNotify=false
-  GenericName=FreeMind
-  | FREEMIND_DESKTOP_ENTRY_EOF
-
-file { 'freemind-shortcut':
-  ensure  => file,
-  path    => "/home/${custom_user}/Desktop/freemind.desktop",
-  owner   => $custom_user,
-  group   => $custom_user,
-  mode    => '0644',
-  content => $freemind_desktop_shortcut,
-  require => [
+xdesktop::shortcut { 'FreeMind':
+  application_path => $freemind_bin,
+  user             => $custom_user,
+  position         => {
+    provider => 'lxqt',
+    x        => 266,
+    y        => 768,
+  },
+  require          => [
     Package['desktop'],
     File['custom_user_desktop_folder'],
-    File['/opt/freemind']
-  ],
-}
-
-exec { 'gvfs-trust-freemind-shortcut':
-  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/freemind.desktop metadata::trusted true",
-  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/freemind.desktop | /usr/bin/grep trusted",
-  user        => $custom_user,
-  environment => [
-    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
-  ],
-  require     => File['freemind-shortcut'],
-}
-
-ini_setting { 'freemind-shortcut-position':
-  ensure  => present,
-  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  section => 'freemind.desktop',
-  setting => 'pos',
-  value   => '@Point(266 768)',
-  require => [
     File['desktop-items-0'],
-    File['freemind-shortcut'],
+    File['/opt/freemind']
   ],
 }

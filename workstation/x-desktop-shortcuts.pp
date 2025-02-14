@@ -46,51 +46,22 @@ exec { 'download-eb-favicon-logo':
   ],
 }
 
-$eb_desktop_shortcut =  @("EB_SHORTCUT_EOF"/L)
-  [Desktop Entry]
-  Version=1.0
-  Name=Evolved Binary
-  Exec=/usr/bin/google-chrome-stable https://www.evolvedbinary.com
-  StartupNotify=true
-  Terminal=false
-  Icon=/home/${custom_user}/.local/share/icons/eb-favicon-logo.svg
-  Type=Application
-  | EB_SHORTCUT_EOF
-
-file { 'eb-desktop-shortcut':
-  ensure  => file,
-  path    => "/home/${custom_user}/Desktop/evolved-binary.desktop",
-  content => $eb_desktop_shortcut,
-  owner   => $custom_user,
-  group   => $custom_user,
-  mode    => '0644',
-  require => [
+xdesktop::shortcut { 'Evolved Binary':
+  application_path => '/usr/bin/google-chrome-stable https://www.evolvedbinary.com',
+  application_icon => "/home/${custom_user}/.local/share/icons/eb-favicon-logo.svg",
+  startup_notify   => true,
+  user             => $custom_user,
+  position         => {
+    provider => 'lxqt',
+    x        => 393,
+    y        => 264,
+  },
+  require          => [
     Package['desktop'],
-    File['custom_user_desktop_folder'],
     Package['google-chrome-stable'],
-    Exec['download-eb-favicon-logo'],
-  ],
-}
-
-exec { 'gvfs-trust-eb-desktop-shortcut':
-  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/evolved-binary.desktop metadata::trusted true",
-  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/evolved-binary.desktop | /usr/bin/grep trusted",
-  user        => $custom_user,
-  environment => [
-    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
-  ],
-  require     => File['eb-desktop-shortcut'],
-}
-
-ini_setting { 'eb-desktop-shortcut-position':
-  ensure  => present,
-  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  section => 'evolved-binary.desktop',
-  setting => 'pos',
-  value   => '@Point(393 264)',
-  require => [
+    File['custom_user_desktop_folder'],
     File['desktop-items-0'],
-    File['eb-desktop-shortcut'],
+    Exec['download-eb-favicon-logo'],
   ],
 }
 
@@ -105,50 +76,21 @@ exec { 'download-ohi-logo':
   ],
 }
 
-$ohi_desktop_shortcut =  @("OHI_SHORTCUT_EOF"/L)
-  [Desktop Entry]
-  Version=1.0
-  Name=Open Health Informatics
-  Exec=/usr/bin/google-chrome-stable https://openhealthinformatics.com
-  StartupNotify=true
-  Terminal=false
-  Icon=/home/${custom_user}/.local/share/icons/ohi-logo.png
-  Type=Application
-  | OHI_SHORTCUT_EOF
-
-file { 'ohi-desktop-shortcut':
-  ensure  => file,
-  path    => "/home/${custom_user}/Desktop/open-health-informatics.desktop",
-  content => $ohi_desktop_shortcut,
-  owner   => $custom_user,
-  group   => $custom_user,
-  mode    => '0644',
-  require => [
+xdesktop::shortcut { 'Open Health Informatics':
+  application_path => '/usr/bin/google-chrome-stable https://openhealthinformatics.com',
+  application_icon => "/home/${custom_user}/.local/share/icons/ohi-logo.png",
+  startup_notify   => true,
+  user             => $custom_user,
+  position         => {
+    provider => 'lxqt',
+    x        => 393,
+    y        => 138,
+  },
+  require          => [
     Package['desktop'],
-    File['custom_user_desktop_folder'],
     Package['google-chrome-stable'],
-    Exec['download-ohi-logo'],
-  ],
-}
-
-exec { 'gvfs-trust-ohi-desktop-shortcut':
-  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/open-health-informatics.desktop metadata::trusted true",
-  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/open-health-informatics.desktop | /usr/bin/grep trusted",
-  user        => $custom_user,
-  environment => [
-    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
-  ],
-  require     => File['ohi-desktop-shortcut'],
-}
-
-ini_setting { 'ohi-desktop-shortcut-position':
-  ensure  => present,
-  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  section => 'open-health-informatics.desktop',
-  setting => 'pos',
-  value   => '@Point(393 138)',
-  require => [
+    File['custom_user_desktop_folder'],
     File['desktop-items-0'],
-    File['ohi-desktop-shortcut'],
+    Exec['download-ohi-logo'],
   ],
 }

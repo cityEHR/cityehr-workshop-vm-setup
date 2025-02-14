@@ -3,9 +3,9 @@
 ###
 
 $default_custom_user = 'student'
-$custom_user = [$override_custom_user, $default_custom_user][0]
+$custom_user = pick(getvar('override_custom_user'), $default_custom_user)
 $default_custom_user_password = 'student'
-$custom_user_password = [$override_custom_user_password, $default_custom_user_password][0]
+$custom_user_password = pick(getvar('override_custom_user_password'), $default_custom_user_password)
 
 group { 'custom_user':
   ensure => present,

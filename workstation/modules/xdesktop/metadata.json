@@ -1,0 +1,28 @@
+{
+    "name": "aretter-xdesktop",
+    "version": "0.1.0",
+    "author": "aretter",
+    "summary": "Simple helpers to setup desktop things",
+    "license": "proprietary",
+    "source": "https://github.com/cityEHR/cityehr-workshop-vm-setup",
+    "dependencies": [
+    ],
+    "operatingsystem_support": [
+      {
+        "operatingsystem": "Ubuntu",
+        "operatingsystemrelease": [
+          "22.04",
+          "24.04"
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "name": "puppet",
+        "version_requirement": ">= 7.0.0"
+      }
+    ],
+    "pdk-version": "2.5.0",
+    "template-url": "pdk-default#2.5.0",
+    "template-ref": "tags/2.5.0-0-g369d483"
+  }

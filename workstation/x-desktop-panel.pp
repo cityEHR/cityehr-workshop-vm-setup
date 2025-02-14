@@ -62,10 +62,10 @@ $panel_conf = @("PANEL_EOF"/L)
 
   [quicklaunch]
   alignment=Left
-  apps\1\desktop=/home/${custom_user}/Desktop/google-chrome.desktop
+  apps\1\desktop=/home/${custom_user}/Desktop/chrome.desktop
   apps\2\desktop=/home/${custom_user}/Desktop/firefox.desktop
-  apps\3\desktop=/home/${custom_user}/Desktop/qterminal.desktop
-  apps\4\desktop=/home/${custom_user}/Desktop/pcmanfm-qt.desktop
+  apps\3\desktop=/home/${custom_user}/Desktop/terminal.desktop
+  apps\4\desktop=/home/${custom_user}/Desktop/file-manager.desktop
   apps\size=4
   type=quicklaunch
 
@@ -106,7 +106,9 @@ file { 'panel':
   require => [
     Package['desktop'],
     File['dot-config-lxqt'],
-    File['google-chrome-desktop-shortcut'],
-    File['firefox-desktop-shortcut'],
+    Xdesktop::Shortcut['Chrome'],
+    Xdesktop::Shortcut['Firefox'],
+    Xdesktop::Shortcut['Terminal'],
+    Xdesktop::Shortcut['File Manager'],
   ],
 }

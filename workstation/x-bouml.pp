@@ -26,49 +26,18 @@ exec { 'download-bouml-tgz':
   ],
 }
 
-$bouml_desktop_entry = @("BOUML_DESKTOP_ENTRY_EOF"/L)
-  [Desktop Entry]
-  Version=1.0
-  Type=Application
-  Name=BOUML
-  Exec=${bouml_bin}
-  Terminal=false
-  StartupNotify=false
-  GenericName=BOUML
-  | BOUML_DESKTOP_ENTRY_EOF
-
-file { 'bouml-shortcut':
-  ensure  => file,
-  path    => "/home/${custom_user}/Desktop/bouml.desktop",
-  owner   => $custom_user,
-  group   => $custom_user,
-  mode    => '0644',
-  content => $bouml_desktop_entry,
-  require => [
+xdesktop::shortcut { 'BOUML':
+  application_path => $bouml_bin,
+  user             => $custom_user,
+  position         => {
+    provider => 'lxqt',
+    x        => 266,
+    y        => 642,
+  },
+  require          => [
     Package['desktop'],
     File['custom_user_desktop_folder'],
-    File[$bouml_path]
-  ],
-}
-
-exec { 'gvfs-trust-bouml-shortcut':
-  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/bouml.desktop metadata::trusted true",
-  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/bouml.desktop | /usr/bin/grep trusted",
-  user        => $custom_user,
-  environment => [
-    'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
-  ],
-  require     => File['bouml-shortcut'],
-}
-
-ini_setting { 'bouml-shortcut-position':
-  ensure  => present,
-  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  section => 'bouml.desktop',
-  setting => 'pos',
-  value   => '@Point(266 642)',
-  require => [
     File['desktop-items-0'],
-    File['bouml-shortcut'],
+    File[$bouml_path]
   ],
 }
