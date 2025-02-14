@@ -26,11 +26,11 @@ cd ~/hetzner
 
 sudo uvt-simplestreams-libvirt sync --source=http://cloud-images.ubuntu.com/minimal/releases arch=amd64 release=noble
 
-./create-uvt-kvm.sh --hostname cityehrwork1 --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip 5.9.214.101 --ip6 2a01:4f8:212:be9::101 --gateway 136.243.43.238 --gateway6 2a01:4f8:212:be9::2 --dns 213.133.100.100 --dns 213.133.99.99 --dns 213.133.98.98 --dns-search evolvedbinary.com --autostart
+./create-uvt-kvm.sh --hostname cityehr-work-01 --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip 5.9.214.101 --ip6 2a01:4f8:212:be9::101 --gateway 136.243.43.238 --gateway6 2a01:4f8:212:be9::2 --dns 213.133.100.100 --dns 213.133.99.99 --dns 213.133.98.98 --dns-search evolvedbinary.com --autostart
 ```
 
 **NOTE**: The VM specific settings are:
-* `--hostname` `cityehrwork1`
+* `--hostname` `cityehr-work-01`
 * `--ip` `5.9.214.101`
 * `--ip6` `2a01:4f8:212:be9::101`
 
@@ -47,15 +47,15 @@ sudo uvt-simplestreams-libvirt sync --source=http://cloud-images.ubuntu.com/mini
 
 If you wish to set this up in AWS EC2, then for each Virtual Machine you need should setup a new EC2 instance with the following properties:
 
-1. Name the instance 'cityehrwork1'. (change the `1` as needed for more machines).
+1. Name the instance 'cityehr-work-01'. (change the `01` as needed for more machines).
 
 2. Select the `Ubuntu Server 24.04 LTS (HVM), SSD Volume Type` AMI image, and the Architecture `amd64`.
 
 3. Select `m6g.xlarge` instance type. (i.e.: 4vCPU, 16GB Memory, 1x237 NVMe SSD, $0.1776 / hour).
 
-4. Select the `cityehrwork` keypair.
+4. Select the `cityehr-work` keypair.
 
-5. Select the `cityehrwork vm` Security Group.
+5. Select the `cityehr-work vm` Security Group.
 
 6. Set the default Root Volume as an `EBS` `30 GiB` volume on `GP3` at `3000 IOPS` and `125 MiB throughput`.
 
@@ -215,12 +215,12 @@ After installation you should be able to access this instance using either one o
 		* **Mac** - Install and run (Microsoft Remote Desktop](https://apps.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12) from the Apple Store.
 		* **Linux** - run `rdesktop` (Ubuntu install: `apt-get install -y rdesktop && rdesktop`)
 	* Connection Settings:
-		* **Host**: The IP address or FQDN of the remote machine (e.g. `cityehrwork1.evolvedbinary.com`)
+		* **Host**: The IP address or FQDN of the remote machine (e.g. `cityehr-work-01.evolvedbinary.com`)
 		* **Username**: `ubuntu`
 		* **Password**: *the password you set above for `default_user_password`*
 
 
 2. Indirectly via the Guacamole website by visiting the website (e.g. [https://plum.evolvedbinary.com](https://plum.evolvedbinary.com)) in your web browser.
 	* Login details:
-		* **Username**: `cityehrwork1` (replace 1 with the number of the instance)
+		* **Username**: `cityehr-work-01` (replace the `01` with the relevant number for the instance)
 		* **Password**: *the password you set above for `cityehrwork_default_user_password`*
