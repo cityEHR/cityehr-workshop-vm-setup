@@ -1,8 +1,8 @@
 ###
-# Puppet Script for Protege on Ubuntu 22.04
+# Puppet Script for Protege on Ubuntu 24.04
 ###
 
-$protege_version = '5.6.4'
+$protege_version = '5.6.5'
 $protege_path = '/opt/protege'
 $protege_bin = "${protege_path}/protege"
 
