@@ -10,8 +10,12 @@ $tomcat_alias = '/opt/tomcat'
 group { $tomcat_user:
   ensure          => present,
   system          => true,
-  auth_membership => false,
-  members         => [$default_user],
+  auth_membership => true,
+  members         => [$default_user, $custom_user],
+  require         => [
+    Group['default_user'],
+    Group['custom_user']
+  ],
 }
 
 user { $tomcat_user:
@@ -57,6 +61,18 @@ exec { 'install-tomcat':
   path    => '/usr/bin',
 }
 
+file { 'set-webapps-mode':
+  ensure  => directory,
+  path    => "${tomcat_path}/webapps",
+  owner   => $tomcat_user,
+  group   => $tomcat_user,
+  # Allow members of the group 'tomcat' to write to the folder
+  # sets the sticky bit so that they can't delete or rename existing files
+  # sets the setgid flag so that group ownership is inherited on new files/directories
+  mode    => '3770',
+  require => Exec['install-tomcat'],
+}
+
 file { '/var/run/tomcat':
   ensure => directory,
   owner  => $tomcat_user,
@@ -73,6 +89,7 @@ $tomcat_service_unit = @("TOMCAT_SERVICE_UNIT_EOF"/L)
   Type=forking
   User=${tomcat_user}
   Group=${tomcat_user}
+  UMask=002
   Environment="JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64"
   Environment="_JAVA_OPTIONS="
   Environment="CATALINA_HOME=${tomcat_alias}"
@@ -85,8 +102,9 @@ $tomcat_service_unit = @("TOMCAT_SERVICE_UNIT_EOF"/L)
   WantedBy=multi-user.target
   | TOMCAT_SERVICE_UNIT_EOF
 
-file { '/etc/systemd/system/tomcat.service':
+file { 'tomcat.service':
   ensure  => file,
+  path    => '/etc/systemd/system/tomcat.service',
   content => $tomcat_service_unit,
   require => [
     User[$tomcat_user],
@@ -107,5 +125,22 @@ service { 'tomcat':
     File['/etc/systemd/system/tomcat.service'],
     Exec['systemd-reload-tomcat'],
     Package['openjdk-11-jdk'],
+  ],
+}
+
+$tomcat_service_sudoer = @("TOMCAT_SERVICE_SUDOER_EOF"/L)
+%${tomcat_user} ALL=(ALL) NOPASSWD: /usr/bin/systemctl stop tomcat, /usr/bin/systemctl start tomcat, /usr/sbin/service tomcat stop, /usr/sbin/service tomcat start
+  | TOMCAT_SERVICE_SUDOER_EOF
+
+file { 'tomcat-service-sudoer':
+  ensure  => file,
+  path    => '/etc/sudoers.d/tomcat-service-sudoer',
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0440',
+  content => $tomcat_service_sudoer,
+  require => [
+    Group[$tomcat_user],
+    File['tomcat.service']
   ],
 }

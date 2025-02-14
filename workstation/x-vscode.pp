@@ -27,22 +27,22 @@ file_line { 'vscode-no-open-folder':
 
 file { 'vscode-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/code.desktop",
+  path    => "/home/${custom_user}/Desktop/code.desktop",
   source  => '/usr/share/applications/code.desktop',
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
     File_line['vscode-no-open-folder'],
   ],
 }
 
 exec { 'gvfs-trust-vscode-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/code.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/code.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/code.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/code.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -51,7 +51,7 @@ exec { 'gvfs-trust-vscode-desktop-shortcut':
 
 ini_setting { 'vscode-desktop-shortcut-position':
   ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
   section => 'code.desktop',
   setting => 'pos',
   value   => '@Point(139 768)',

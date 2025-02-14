@@ -4,18 +4,18 @@
 
 file { 'dot-config':
   ensure  => directory,
-  path    => "/home/${default_user}/.config",
-  owner   => $default_user,
-  group   => $default_user,
+  path    => "/home/${custom_user}/.config",
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0700',
   require => Package['desktop'],
 }
 
 file { 'dot-config-lxqt':
   ensure  => directory,
-  path    => "/home/${default_user}/.config/lxqt",
-  owner   => $default_user,
-  group   => $default_user,
+  path    => "/home/${custom_user}/.config/lxqt",
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0700',
   require => [
     Package['desktop'],
@@ -62,10 +62,10 @@ $panel_conf = @("PANEL_EOF"/L)
 
   [quicklaunch]
   alignment=Left
-  apps\1\desktop=/home/${default_user}/Desktop/google-chrome.desktop
-  apps\2\desktop=/home/${default_user}/Desktop/firefox.desktop
-  apps\3\desktop=/home/${default_user}/Desktop/qterminal.desktop
-  apps\4\desktop=/home/${default_user}/Desktop/pcmanfm-qt.desktop
+  apps\1\desktop=/home/${custom_user}/Desktop/google-chrome.desktop
+  apps\2\desktop=/home/${custom_user}/Desktop/firefox.desktop
+  apps\3\desktop=/home/${custom_user}/Desktop/qterminal.desktop
+  apps\4\desktop=/home/${custom_user}/Desktop/pcmanfm-qt.desktop
   apps\size=4
   type=quicklaunch
 
@@ -98,10 +98,10 @@ $panel_conf = @("PANEL_EOF"/L)
 file { 'panel':
   ensure  => file,
   replace => true,
-  path    => "/home/${default_user}/.config/lxqt/panel.conf",
+  path    => "/home/${custom_user}/.config/lxqt/panel.conf",
   content => $panel_conf,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0664',
   require => [
     Package['desktop'],

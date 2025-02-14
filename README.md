@@ -188,13 +188,17 @@ After the system restarts and you have logged in, you need to resume from the `c
 ```shell
 cd cityehr-workshop-vm-setup/workstation
 sudo FACTER_default_user_password=mypassword \
-     FACTER_mariadb_db_root_password=cityehrwork \
-     /opt/puppetlabs/bin/puppet apply .
+  FACTER_override_custom_user=adam.retter \
+  FACTER_override_custom_user_password=cityehr \
+  FACTER_mariadb_db_root_password=cityehrwork \
+  /opt/puppetlabs/bin/puppet apply .
 ```
 
 **NOTE:** you should set your own passwords appropriately above!
 
 * `default_user_password` this is the password to set for the default linux user (typically the user is named `ubuntu` on Ubuntu Cloud images). It needs to be the same as the password you used for this above.
+* `override_custom_user` this is the username for the linux user account to add to this machine (e.g. for the Student). If not specified, defaults to: `student`.
+* `override_custom_user_password` this is a password for the custom user account. If not specified, defaults to: `student`.
 * `mariadb_db_root_password` - This is the password to set for the `root` user in MariaDB.
 
 We have to restart the system after the above as it installs a new desktop login manager.

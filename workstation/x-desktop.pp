@@ -2,11 +2,11 @@
 # Puppet Script for a Desktop Developer Environment using LXQT on Ubuntu 24.04
 ###
 
-$desktop_background_image = "/home/${default_user}/Pictures/cityehrwork-desktop-background.png"
+$desktop_background_image = "/home/${custom_user}/Pictures/cityehrwork-desktop-background.png"
 
 file { 'disable-screensaver':
   ensure  => file,
-  path    => "/home/${default_user}/.xscreensaver",
+  path    => "/home/${custom_user}/.xscreensaver",
   replace => false,
   mode    => '0664',
   content => 'mode:    off',
@@ -14,7 +14,7 @@ file { 'disable-screensaver':
 
 file_line { 'disable-screensaver':
   ensure  => present,
-  path    => "/home/${default_user}/.xscreensaver",
+  path    => "/home/${custom_user}/.xscreensaver",
   line    => 'mode:    off',
   match   => '^mode:',
   require => File['disable-screensaver'],
@@ -28,7 +28,7 @@ package { 'desktop':
 
 ini_setting { 'lxqt-session-userfile':
   ensure  => present,
-  path    => "/home/${default_user}/.config/lxqt/session.conf",
+  path    => "/home/${custom_user}/.config/lxqt/session.conf",
   section => 'General',
   setting => '__userfile__',
   value   => 'true',
@@ -37,7 +37,7 @@ ini_setting { 'lxqt-session-userfile':
 
 ini_setting { 'lxqt-session-window-manager':
   ensure  => present,
-  path    => "/home/${default_user}/.config/lxqt/session.conf",
+  path    => "/home/${custom_user}/.config/lxqt/session.conf",
   section => 'General',
   setting => 'window_manager',
   value   => 'xfwm4',
@@ -52,64 +52,64 @@ file { 'xterm':
   require => Package['desktop'],
 }
 
-file { 'default_user_desktop_folder':
+file { 'custom_user_desktop_folder':
   ensure  => directory,
-  path    => "/home/${default_user}/Desktop",
+  path    => "/home/${custom_user}/Desktop",
   replace => false,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0775',
   require => [
     Package['desktop'],
-    File['default_user_home'],
+    File['custom_user_home'],
   ],
 }
 
-file { "/home/${default_user}/Pictures":
+file { "/home/${custom_user}/Pictures":
   ensure => directory,
-  owner  => $default_user,
-  group  => $default_user,
+  owner  => $custom_user,
+  group  => $custom_user,
   mode   => '0755',
 }
 
 exec { 'download-desktop-background':
   command => "curl https://static.evolvedbinary.com/cityehr/cityehrwork-desktop-background.png -o ${desktop_background_image}",
   path    => '/usr/bin',
-  user    => $default_user,
+  user    => $custom_user,
   creates => $desktop_background_image,
   require => [
-    File["/home/${default_user}/Pictures"],
-    File['default_user_desktop_folder'],
+    File["/home/${custom_user}/Pictures"],
+    File['custom_user_desktop_folder'],
   ],
 }
 
-file { "/home/${default_user}/.config/pcmanfm-qt":
+file { "/home/${custom_user}/.config/pcmanfm-qt":
   ensure => directory,
-  owner  => $default_user,
-  group  => $default_user,
+  owner  => $custom_user,
+  group  => $custom_user,
   mode   => '0775',
 }
 
-file { "/home/${default_user}/.config/pcmanfm-qt/lxqt":
+file { "/home/${custom_user}/.config/pcmanfm-qt/lxqt":
   ensure  => directory,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0775',
-  require => File["/home/${default_user}/.config/pcmanfm-qt"],
+  require => File["/home/${custom_user}/.config/pcmanfm-qt"],
 }
 
 file { 'settings.conf':
   ensure  => file,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
-  owner   => $default_user,
-  group   => $default_user,
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0664',
-  require => File["/home/${default_user}/.config/pcmanfm-qt/lxqt"],
+  require => File["/home/${custom_user}/.config/pcmanfm-qt/lxqt"],
 }
 
 ini_setting { 'desktop_background_image':
   ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/settings.conf",
   section => 'Desktop',
   setting => 'Wallpaper',
   value   => $desktop_background_image,
@@ -122,7 +122,7 @@ ini_setting { 'desktop_background_image':
 
 ini_setting { 'desktop_background_mode':
   ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/settings.conf",
   section => 'Desktop',
   setting => 'WallpaperMode',
   value   => 'fit',
@@ -135,7 +135,7 @@ ini_setting { 'desktop_background_mode':
 
 ini_setting { 'desktop_background_color':
   ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/settings.conf",
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/settings.conf",
   section => 'Desktop',
   setting => 'BgColor',
   value   => '#f8e5bd',
@@ -156,21 +156,21 @@ $computer_desktop_shortcut = @("COMPUTER_DESKTOP_ENTRY_EOF"/L)
 
 file { 'computer-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/computer.desktop",
+  path    => "/home/${custom_user}/Desktop/computer.desktop",
   content => $computer_desktop_shortcut,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
   ],
 }
 
 exec { 'gvfs-trust-computer-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/computer.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/computer.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/computer.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/computer.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -187,21 +187,21 @@ $user_home_desktop_shortcut = @("USER_HOME_DESKTOP_ENTRY_EOF"/L)
 
 file { 'user-home-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/user-home.desktop",
+  path    => "/home/${custom_user}/Desktop/user-home.desktop",
   content => $user_home_desktop_shortcut,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
   ],
 }
 
 exec { 'gvfs-trust-user-home-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/user-home.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/user-home.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/user-home.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/user-home.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -218,21 +218,21 @@ $network_desktop_shortcut = @("NETWORK_DESKTOP_ENTRY_EOF"/L)
 
 file { 'network-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/network.desktop",
+  path    => "/home/${custom_user}/Desktop/network.desktop",
   content => $network_desktop_shortcut,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
   ],
 }
 
 exec { 'gvfs-trust-network-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/network.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/network.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/network.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/network.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -249,21 +249,21 @@ $trash_can_desktop_shortcut = @("NETWORK_DESKTOP_ENTRY_EOF"/L)
 
 file { 'trash-can-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/trash-can.desktop",
+  path    => "/home/${custom_user}/Desktop/trash-can.desktop",
   content => $trash_can_desktop_shortcut,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
   ],
 }
 
 exec { 'gvfs-trust-trash-can-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/trash-can.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/trash-can.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/trash-can.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/trash-can.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -288,23 +288,23 @@ file_line { 'simplify-qterminalname-2':
 
 file { 'qterminal-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/qterminal.desktop",
+  path    => "/home/${custom_user}/Desktop/qterminal.desktop",
   source  => '/usr/share/applications/qterminal.desktop',
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
     File_line['simplify-qterminalname-1'],
     File_line['simplify-qterminalname-2'],
   ],
 }
 
 exec { 'gvfs-trust-qterminal-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/qterminal.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/qterminal.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/qterminal.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/qterminal.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -321,22 +321,22 @@ file_line { 'simplify-pcmanfm-qt-name':
 
 file { 'pcmanfm-qt-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/pcmanfm-qt.desktop",
+  path    => "/home/${custom_user}/Desktop/pcmanfm-qt.desktop",
   source  => '/usr/share/applications/pcmanfm-qt.desktop',
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
     File_line['simplify-pcmanfm-qt-name'],
   ],
 }
 
 exec { 'gvfs-trust-pcmanfm-qt-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/pcmanfm-qt.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/pcmanfm-qt.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/pcmanfm-qt.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/pcmanfm-qt.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -353,22 +353,22 @@ file_line { 'simplify-lxqt-archiver-name':
 
 file { 'lxqt-archiver-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/lxqt-archiver.desktop",
+  path    => "/home/${custom_user}/Desktop/lxqt-archiver.desktop",
   source  => '/usr/share/applications/lxqt-archiver.desktop',
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
     File_line['simplify-lxqt-archiver-name'],
   ],
 }
 
 exec { 'gvfs-trust-lxqt-archiver-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/lxqt-archiver.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/lxqt-archiver.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/lxqt-archiver.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/lxqt-archiver.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -377,11 +377,11 @@ exec { 'gvfs-trust-lxqt-archiver-desktop-shortcut':
 
 file { 'desktop-items-0':
   ensure  => file,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
-  owner   => $default_user,
-  group   => $default_user,
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
-  require => File["/home/${default_user}/.config/pcmanfm-qt/lxqt"],
+  require => File["/home/${custom_user}/.config/pcmanfm-qt/lxqt"],
 }
 
 # Position the Desktop icons
@@ -395,7 +395,7 @@ inifile::create_ini_settings( {
     'qterminal.desktop'     => { 'pos' => '@Point(12 768)' },
   }, {
     ensure => present,
-    path => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+    path => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
     require => [
       Package['desktop'],
       File['desktop-items-0'],

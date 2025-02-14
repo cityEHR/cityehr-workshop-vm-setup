@@ -118,7 +118,7 @@ package { 'curl':
   ensure => installed,
 }
 
-exec { 'install-ohmyzsh':
+exec { 'install-ohmyzsh-default-user':
   command => 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"',
   path    => '/usr/bin',
   user    => $default_user,

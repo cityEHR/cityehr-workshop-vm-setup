@@ -20,22 +20,22 @@ package { 'google-chrome-stable':
 
 file { 'google-chrome-desktop-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/google-chrome.desktop",
+  path    => "/home/${custom_user}/Desktop/google-chrome.desktop",
   source  => '/usr/share/applications/google-chrome.desktop',
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
     Package['google-chrome-stable'],
   ],
 }
 
 exec { 'gvfs-trust-google-chrome-desktop-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/google-chrome.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/google-chrome.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/google-chrome.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/google-chrome.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -44,7 +44,7 @@ exec { 'gvfs-trust-google-chrome-desktop-shortcut':
 
 ini_setting { 'google-chrome-desktop-shortcut-position':
   ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
   section => 'google-chrome.desktop',
   setting => 'pos',
   value   => '@Point(139 138)',

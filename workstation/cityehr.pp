@@ -22,63 +22,64 @@ exec { 'download-cityehr':
 }
 
 exec { 'download-cityehr-quickstart-guide':
-  command => "curl -L https://static.evolvedbinary.com/cityehr/${cityehr_quickstart} -o /home/${default_user}/Desktop/cityEHR_QuickStart.pdf",
+  command => "curl -L https://static.evolvedbinary.com/cityehr/${cityehr_quickstart} -o /home/${custom_user}/Desktop/cityEHR_QuickStart.pdf",
   path    => '/usr/bin',
-  user    => $default_user,
-  group   => $default_user,
-  creates => "/home/${default_user}/Desktop/cityEHR_QuickStart.pdf",
+  user    => $custom_user,
+  group   => $custom_user,
+  creates => "/home/${custom_user}/Desktop/cityEHR_QuickStart.pdf",
   require => [
     Package['file'],
     Package['curl'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
   ],
 }
 
 # Set homepage for cityEHR
 
-file { "/home/${default_user}/snap":
-  ensure => directory,
-  owner  => $default_user,
-  group  => $default_user,
-  mode   => '0700',
-}
-
-file { "/home/${default_user}/snap/firefox":
+file { "/home/${custom_user}/snap":
   ensure  => directory,
-  owner   => $default_user,
-  group   => $default_user,
-  mode    => '0755',
-  require => File["/home/${default_user}/snap"],
-}
-
-file { "/home/${default_user}/snap/firefox/common":
-  ensure  => directory,
-  owner   => $default_user,
-  group   => $default_user,
-  mode    => '0755',
-  require => File["/home/${default_user}/snap/firefox"],
-}
-
-file { "/home/${default_user}/snap/firefox/common/.mozilla":
-  ensure  => directory,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0700',
-  require => File["/home/${default_user}/snap/firefox/common"],
+  require => File['custom_user_home'],
 }
 
-file { "/home/${default_user}/snap/firefox/common/.mozilla/firefox":
+file { "/home/${custom_user}/snap/firefox":
   ensure  => directory,
-  owner   => $default_user,
-  group   => $default_user,
-  mode    => '0700',
-  require => File["/home/${default_user}/snap/firefox/common/.mozilla"],
+  owner   => $custom_user,
+  group   => $custom_user,
+  mode    => '0755',
+  require => File["/home/${custom_user}/snap"],
 }
 
-file { "/home/${default_user}/snap/firefox/common/.mozilla/firefox/profiles.ini":
+file { "/home/${custom_user}/snap/firefox/common":
+  ensure  => directory,
+  owner   => $custom_user,
+  group   => $custom_user,
+  mode    => '0755',
+  require => File["/home/${custom_user}/snap/firefox"],
+}
+
+file { "/home/${custom_user}/snap/firefox/common/.mozilla":
+  ensure  => directory,
+  owner   => $custom_user,
+  group   => $custom_user,
+  mode    => '0700',
+  require => File["/home/${custom_user}/snap/firefox/common"],
+}
+
+file { "/home/${custom_user}/snap/firefox/common/.mozilla/firefox":
+  ensure  => directory,
+  owner   => $custom_user,
+  group   => $custom_user,
+  mode    => '0700',
+  require => File["/home/${custom_user}/snap/firefox/common/.mozilla"],
+}
+
+file { "/home/${custom_user}/snap/firefox/common/.mozilla/firefox/profiles.ini":
   ensure  => file,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0664',
   content => "[Profile0]
 Name=default
@@ -90,35 +91,35 @@ Default=1
 StartWithLastProfile=1
 Version=2",
   require => [
-    File["/home/${default_user}/snap/firefox/common/.mozilla/firefox"],
+    File["/home/${custom_user}/snap/firefox/common/.mozilla/firefox"],
     Exec['download-cityehr'],
     Package['firefox'],
   ],
 }
 
-file { "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default":
+file { "/home/${custom_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default":
   ensure  => directory,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0700',
-  require => File["/home/${default_user}/snap/firefox/common/.mozilla/firefox"],
+  require => File["/home/${custom_user}/snap/firefox/common/.mozilla/firefox"],
 }
 
-file { "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js":
+file { "/home/${custom_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js":
   ensure  => file,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0600',
-  require => File["/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default"],
+  require => File["/home/${custom_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default"],
 }
 
 file_line { 'firefox-home-page':
   ensure  => present,
-  path    => "/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js",
+  path    => "/home/${custom_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js",
   line    => 'user_pref("browser.startup.homepage", "http://localhost:8080/cityehr");',
   match   => '^user_pref\("browser\.startup\.homepage"',
   require => [
-    File["/home/${default_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js"],
+    File["/home/${custom_user}/snap/firefox/common/.mozilla/firefox/${firefox_profile_id}.default/prefs.js"],
     Exec['download-cityehr'],
     Package['firefox'],
   ],

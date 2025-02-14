@@ -11,9 +11,9 @@ $ocular_mimeapp = @("OKULAR_MIMEAPP_EOF"/L)
   application/pdf=okularApplication_pdf.desktop
   | OKULAR_MIMEAPP_EOF
 
-file { "/home/${default_user}/.config/lxqt-mimeapps.list":
+file { "/home/${custom_user}/.config/lxqt-mimeapps.list":
   ensure  => file,
   content => $ocular_mimeapp,
-  owner   => $default_user,
-  group   => $default_user,
+  owner   => $custom_user,
+  group   => $custom_user,
 }

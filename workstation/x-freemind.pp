@@ -60,22 +60,22 @@ $freemind_desktop_shortcut = @("FREEMIND_DESKTOP_ENTRY_EOF"/L)
 
 file { 'freemind-shortcut':
   ensure  => file,
-  path    => "/home/${default_user}/Desktop/freemind.desktop",
-  owner   => $default_user,
-  group   => $default_user,
+  path    => "/home/${custom_user}/Desktop/freemind.desktop",
+  owner   => $custom_user,
+  group   => $custom_user,
   mode    => '0644',
   content => $freemind_desktop_shortcut,
   require => [
     Package['desktop'],
-    File['default_user_desktop_folder'],
+    File['custom_user_desktop_folder'],
     File['/opt/freemind']
   ],
 }
 
 exec { 'gvfs-trust-freemind-shortcut':
-  command     => "/usr/bin/gio set /home/${default_user}/Desktop/freemind.desktop metadata::trusted true",
-  unless      => "/usr/bin/gio info --attributes=metadata::trusted /home/${default_user}/Desktop/freemind.desktop | /usr/bin/grep trusted",
-  user        => $default_user,
+  command     => "/usr/bin/dbus-launch gio set /home/${custom_user}/Desktop/freemind.desktop metadata::trusted true",
+  unless      => "/usr/bin/dbus-launch gio info --attributes=metadata::trusted /home/${custom_user}/Desktop/freemind.desktop | /usr/bin/grep trusted",
+  user        => $custom_user,
   environment => [
     'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus',
   ],
@@ -84,7 +84,7 @@ exec { 'gvfs-trust-freemind-shortcut':
 
 ini_setting { 'freemind-shortcut-position':
   ensure  => present,
-  path    => "/home/${default_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
+  path    => "/home/${custom_user}/.config/pcmanfm-qt/lxqt/desktop-items-0.conf",
   section => 'freemind.desktop',
   setting => 'pos',
   value   => '@Point(266 768)',

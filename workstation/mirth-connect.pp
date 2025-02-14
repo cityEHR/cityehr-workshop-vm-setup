@@ -13,7 +13,7 @@ group { $mirth_connect_user:
   ensure          => present,
   system          => true,
   auth_membership => false,
-  members         => [$default_user],
+  members         => [$custom_user],
 }
 
 user { $mirth_connect_user:
