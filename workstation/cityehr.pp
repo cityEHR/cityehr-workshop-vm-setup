@@ -3,13 +3,14 @@
 ###
 
 $cityehr_version = '1.8.0-SNAPSHOT'
+$cityehr_war_url = 'https://openhealthinformatics.com/wp-content/resources/cityehr-webapp-${cityehr_version}.war'
 $cityehr_war_path = '/opt/tomcat/webapps/cityehr.war'
 $cityehr_quickstart = '2024-08-05_cityEHR_QuickStart.pdf'
 
 $firefox_profile_id = 'ki59z67a'
 
 exec { 'download-cityehr':
-  command => "curl -L https://openhealthinformatics.com/wp-content/resources/cityehr-webapp-${cityehr_version}.war -o ${cityehr_war_path}",
+  command => "curl -L ${cityehr_war_url} -o ${cityehr_war_path}",
   path    => '/usr/bin',
   user    => 'tomcat',
   group   => 'tomcat',
