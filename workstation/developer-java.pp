@@ -54,23 +54,23 @@ file_line { 'JAVA_HOME':
 
 # Install JavaFX 17
 exec { 'download-openjfx17':
-  command => 'wget https://download2.gluonhq.com/openjfx/17.0.12/openjfx-17.0.12_linux-x64_bin-jmods.zip -O /tmp/openjdk-jmods.zip',
+  command => 'wget https://download2.gluonhq.com/openjfx/17.0.14/openjfx-17.0.14_linux-x64_bin-jmods.zip -O /tmp/openjdk-jmods.zip',
   path    => '/usr/bin',
   user    => 'root',
-  creates => '/usr/lib/jvm/javafx-jmods-17.0.12',
+  creates => '/usr/lib/jvm/javafx-jmods-17.0.14',
   require => Package['wget'],
 }
 ~> exec { 'extract-openjfx17':
   command => 'unzip /tmp/openjdk-jmods.zip -d /usr/lib/jvm',
   path    => '/usr/bin',
   user    => 'root',
-  creates => '/usr/lib/jvm/javafx-jmods-17.0.12',
+  creates => '/usr/lib/jvm/javafx-jmods-17.0.14',
   require => Package['unzip'],
 }
 ~> file_line { '_JAVA_OPTIONS':
   ensure => present,
   path   => '/etc/environment',
-  line   => '_JAVA_OPTIONS="--module-path=/usr/lib/jvm/javafx-jmods-17.0.12 --add-modules=ALL-MODULE-PATH"',
+  line   => '_JAVA_OPTIONS="--module-path=/usr/lib/jvm/javafx-jmods-17.0.14 --add-modules=ALL-MODULE-PATH"',
   match  => '^_JAVA_OPTIONS\=',
 }
 
