@@ -2,7 +2,7 @@
 # Puppet Script for MySQL Workbench on Ubuntu 22.04
 ###
 
-$mysql_workbench_community_version = '8.0.38-1ubuntu24.04_amd64'
+$mysql_workbench_community_version = '8.0.41-1ubuntu24.04_amd64'
 
 exec { 'download-mysql-workbench-community-deb':
   command => "/usr/bin/curl -L https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community_${mysql_workbench_community_version}.deb -o /tmp/mysql-workbench-community_${mysql_workbench_community_version}.deb",
