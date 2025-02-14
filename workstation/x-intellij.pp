@@ -2,7 +2,7 @@
 # Puppet Script for IntelliJ IDEA CE on Ubuntu 24.04
 ###
 
-$intellij_idea_version = '2023.3.3'
+$intellij_idea_version = '2024.3.2.2'
 
 file { "/opt/idea-IC-${intellij_idea_version}":
   ensure  => directory,
