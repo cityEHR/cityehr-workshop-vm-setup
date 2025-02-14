@@ -4,6 +4,38 @@
 
 $oxygen_version = '26.0'
 
+$oxygen_license_xml = @(OXYGEN_LICENSE_XML_EOF:xml/L)
+  <?xml version="1.0" encoding="UTF-8"?>
+  <serialized xml:space="preserve">
+    <serializableOrderedMap>
+      <entry>
+        <String>license.26</String>
+        <String>------START-LICENSE-KEY------
+
+Registration_Name=sysops @ evolvedbinary . com
+
+Company=Evolved-Binary
+
+Category=Enterprise
+
+Component=XML-Editor, XSLT-Debugger, Saxon-SA
+
+Version=26
+
+Number_of_Licenses=1
+
+Date=09-15-2024
+
+Trial=31
+
+SGN=MCwCFHzStSY/uhwcbe9Dsry/qUvy2rLPAhQIZ0J/y6ypZQvecApCqdMu7DXu3A\=\=
+
+-------END-LICENSE-KEY-------</String>
+      </entry>
+    </serializableOrderedMap>
+  </serialized>
+  | OXYGEN_LICENSE_XML_EOF
+
 file { "/opt/oxygen-${oxygen_version}":
   ensure  => directory,
   replace => false,
@@ -88,39 +120,6 @@ file { 'oxygen-user-settings-path':
   group   => $custom_user,
   mode    => '0775',
 }
-
-$oxygen_license_xml = @(OXYGEN_LICENSE_XML_EOF:xml/L)
-  <?xml version="1.0" encoding="UTF-8"?>
-  <serialized xml:space="preserve">
-    <serializableOrderedMap>
-      <entry>
-        <String>license.26</String>
-        <String>------START-LICENSE-KEY------
-
-Registration_Name=sysops @ evolvedbinary . com
-
-Company=Evolved-Binary
-
-Category=Enterprise
-
-Component=XML-Editor, XSLT-Debugger, Saxon-SA
-
-Version=26
-
-Number_of_Licenses=1
-
-Date=09-15-2024
-
-Trial=31
-
-SGN=MCwCFHzStSY/uhwcbe9Dsry/qUvy2rLPAhQIZ0J/y6ypZQvecApCqdMu7DXu3A\=\=
-
-
--------END-LICENSE-KEY-------</String>
-      </entry>
-    </serializableOrderedMap>
-  </serialized>
-  | OXYGEN_LICENSE_XML_EOF
 
 file { 'oxygen-license':
   ensure  => file,
