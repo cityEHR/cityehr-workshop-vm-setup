@@ -3,7 +3,8 @@
 ###
 
 $cityehr_version = '1.8.0-SNAPSHOT'
-$cityehr_war_url = 'https://openhealthinformatics.com/wp-content/resources/cityehr-webapp-${cityehr_version}.war'
+#$cityehr_war_url = 'https://openhealthinformatics.com/wp-content/resources/cityehr-webapp-${cityehr_version}.war'
+$cityehr_war_url = 'https://openhealthinformatics.com/wp-content/resources/cityehr.war'
 $cityehr_war_path = '/opt/tomcat/webapps/cityehr.war'
 $cityehr_quickstart = '2024-08-05_cityEHR_QuickStart.pdf'
 
