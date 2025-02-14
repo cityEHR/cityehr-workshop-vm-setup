@@ -2,7 +2,7 @@
 # Puppet Script for Tomcat 9 on Ubuntu 24.04
 ###
 
-$tomcat_version = '9.0.93'
+$tomcat_version = '9.0.99'
 $tomcat_user = 'tomcat'
 $tomcat_path = "/opt/tomcat-${tomcat_version}"
 $tomcat_alias = '/opt/tomcat'
@@ -46,7 +46,7 @@ file { $tomcat_alias:
 }
 
 exec { 'install-tomcat':
-  command => "curl https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.93/bin/apache-tomcat-9.0.93.tar.gz | tar zxv -C ${tomcat_path} --strip-components=1",
+  command => "curl https://dlcdn.apache.org/tomcat/tomcat-9/v${tomcat_version}/bin/apache-tomcat-${tomcat_version}.tar.gz | tar zxv -C ${tomcat_path} --strip-components=1",
   path    => '/usr/bin',
   user    => $tomcat_user,
   creates => "${tomcat_path}/bin/catalina.sh",
