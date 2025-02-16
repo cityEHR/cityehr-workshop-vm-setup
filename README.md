@@ -29,6 +29,18 @@ sudo uvt-simplestreams-libvirt sync --source=http://cloud-images.ubuntu.com/mini
 ./create-uvt-kvm.sh --hostname cityehr-work-01 --release noble --memory 14336 --disk 30 --cpu 4 --bridge virbr1 --ip 5.9.214.101 --ip6 2a01:4f8:212:be9::101 --gateway 136.243.43.238 --gateway6 2a01:4f8:212:be9::2 --dns 213.133.100.100 --dns 213.133.99.99 --dns 213.133.98.98 --dns-search evolvedbinary.com --autostart
 ```
 
+**NOTE**: There is an issue at the moment with the 2nd private interface not being activated until the VM is shutdown and re-launched. So before you login to the VM fo rthe first time, please wait a few minutes so the VM finishes starting up, and then run:
+
+```shell
+virsh shutdown cityehr-work-01
+```
+
+You should then check the status of the VM until it is shutdown. You can do that by running: `virsh domstate cityehr-work-01`. When the state is `shut off`, you can then restart the VM by running:
+
+```shell
+virsh cityehr-work-01
+```
+
 **NOTE**: The VM specific settings are:
 * `--hostname` `cityehr-work-01`
 * `--ip` `5.9.214.101`
