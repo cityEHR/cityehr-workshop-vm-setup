@@ -75,7 +75,7 @@ exec { 'download-ohmyzsh':
 }
 
 exec { 'install-ohmyzsh-custom-user':
-  command  => '/tmp/ohmyzsh-install.sh',
+  command  => '/tmp/ohmyzsh-install.sh --unattended',
   user     => $custom_user,
   provider => 'shell',
   unless   => "/usr/bin/test -d /home/${custom_user}/.oh-my-zsh",
