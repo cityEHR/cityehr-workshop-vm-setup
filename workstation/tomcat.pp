@@ -77,7 +77,7 @@ file { '/var/run/tomcat':
   ensure => directory,
   owner  => $tomcat_user,
   group  => $tomcat_user,
-  mode   => '0664',
+  mode   => '0774',
 }
 
 $tomcat_service_unit = @("TOMCAT_SERVICE_UNIT_EOF"/L)
