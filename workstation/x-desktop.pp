@@ -60,7 +60,7 @@ file { 'custom_user_desktop_folder':
   replace => false,
   owner   => $custom_user,
   group   => $custom_user,
-  mode    => '0775',
+  mode    => '0770',
   require => [
     Package['desktop'],
     File['custom_user_home'],
