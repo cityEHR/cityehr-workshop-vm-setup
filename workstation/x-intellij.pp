@@ -37,7 +37,7 @@ xdesktop::shortcut { 'IntelliJ IDEA CE':
   user             => $custom_user,
   position         => {
     provider => 'lxqt',
-    x        => 266,
+    x        => 393,
     y        => 390,
   },
   require          => [

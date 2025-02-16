@@ -13,7 +13,7 @@ xdesktop::shortcut { 'LibreOffice Writer':
   position        => {
     provider => 'lxqt',
     x        => 139,
-    y        => 264,
+    y        => 390,
   },
   require         => [
     Package['desktop'],
@@ -29,7 +29,7 @@ xdesktop::shortcut { 'LibreOffice Calc':
   position        => {
     provider => 'lxqt',
     x        => 139,
-    y        => 390,
+    y        => 516,
   },
   require         => [
     Package['desktop'],

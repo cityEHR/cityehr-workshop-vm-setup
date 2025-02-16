@@ -24,7 +24,7 @@ xdesktop::shortcut { 'Chrome':
   position        => {
     provider => 'lxqt',
     x        => 139,
-    y        => 138,
+    y        => 12,
   },
   require         => [
     Package['desktop'],

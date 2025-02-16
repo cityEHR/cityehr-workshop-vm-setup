@@ -70,7 +70,7 @@ xdesktop::shortcut { 'Oxygen XML Editor':
   position         => {
     provider => 'lxqt',
     x        => 139,
-    y        => 642,
+    y        => 264,
   },
   require          => [
     Package['desktop'],

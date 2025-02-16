@@ -30,8 +30,8 @@ xdesktop::shortcut { 'Mirth Administrator':
   user             => $custom_user,
   position         => {
     provider => 'lxqt',
-    x        => 393,
-    y        => 12,
+    x        => 264,
+    y        => 264,
   },
   require          => [
     Package['desktop'],

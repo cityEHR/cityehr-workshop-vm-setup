@@ -12,8 +12,8 @@ xdesktop::shortcut { 'Inkscape':
   user            => $custom_user,
   position        => {
     provider => 'lxqt',
-    x        => 139,
-    y        => 516,
+    x        => 266,
+    y        => 138,
   },
   require         => [
     Package['desktop'],

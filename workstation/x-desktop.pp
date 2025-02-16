@@ -216,7 +216,7 @@ xdesktop::shortcut { 'Trash':
   position         => {
     provider => 'lxqt',
     x        => 12,
-    y        => 390,
+    y        => 768,
   },
   require          => [
     Package['desktop'],
@@ -248,7 +248,7 @@ xdesktop::shortcut { 'Terminal':
   position        => {
     provider => 'lxqt',
     x        => 12,
-    y        => 768,
+    y        => 516,
   },
   require         => [
     Package['desktop'],
@@ -274,7 +274,7 @@ xdesktop::shortcut { 'File Manager':
   position        => {
     provider => 'lxqt',
     x        => 12,
-    y        => 516,
+    y        => 390,
   },
   require         => [
     Package['desktop'],

@@ -25,7 +25,7 @@ xdesktop::shortcut { 'Modelio':
   user            => $custom_user,
   position        => {
     provider => 'lxqt',
-    x        => 393,
+    x        => 266,
     y        => 390,
   },
   require         => [

@@ -33,7 +33,7 @@ xdesktop::shortcut { 'Protege':
   position         => {
     provider => 'lxqt',
     x        => 266,
-    y        => 264,
+    y        => 12,
   },
   require          => [
     Package['desktop'],

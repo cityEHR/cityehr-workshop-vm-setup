@@ -24,8 +24,8 @@ xdesktop::shortcut { 'MySQL Workbench':
   user            => $custom_user,
   position        => {
     provider => 'lxqt',
-    x        => 266,
-    y        => 138,
+    x        => 139,
+    y        => 642,
   },
   require         => [
     Package['desktop'],

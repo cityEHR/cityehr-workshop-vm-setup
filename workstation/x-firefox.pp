@@ -15,7 +15,7 @@ xdesktop::shortcut { 'Firefox':
   position         => {
     provider => 'lxqt',
     x        => 139,
-    y        => 12,
+    y        => 138,
   },
   require          => [
     Package['desktop'],

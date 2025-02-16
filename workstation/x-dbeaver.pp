@@ -31,8 +31,8 @@ xdesktop::shortcut { 'DBeaver CE':
   user            => $custom_user,
   position        => {
     provider => 'lxqt',
-    x        => 266,
-    y        => 12,
+    x        => 139,
+    y        => 768,
   },
   require         => [
     Package['desktop'],
