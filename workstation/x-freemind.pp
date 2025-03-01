@@ -48,7 +48,7 @@ file { 'exec-freemind-sh':
 }
 
 xdesktop::shortcut { 'FreeMind':
-  application_path => $freemind_bin,
+  application_path => "env JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 ${freemind_bin}",
   user             => $custom_user,
   position         => {
     provider => 'lxqt',
@@ -59,6 +59,7 @@ xdesktop::shortcut { 'FreeMind':
     Package['desktop'],
     File['custom_user_desktop_folder'],
     File['desktop-items-0'],
-    File['/opt/freemind']
+    File['/opt/freemind'],
+    Package['openjdk-11-jre']
   ],
 }
