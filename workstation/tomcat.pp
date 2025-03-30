@@ -2,7 +2,7 @@
 # Puppet Script for Tomcat 9 on Ubuntu 24.04
 ###
 
-$tomcat_version = '9.0.99'
+$tomcat_version = '9.0.102'
 $tomcat_user = 'tomcat'
 $tomcat_path = "/opt/tomcat-${tomcat_version}"
 $tomcat_alias = '/opt/tomcat'
